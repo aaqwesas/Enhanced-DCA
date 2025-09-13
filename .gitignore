@@ -135,7 +135,7 @@ celerybeat.pid
 *.rdb
 *.aof
 *.pid
-.data/
+
 # RabbitMQ
 mnesia/
 rabbitmq/
@@ -216,4 +216,4 @@ __marimo__/
 .streamlit/secrets.toml
 
 .vscode/
-data/
+.data/

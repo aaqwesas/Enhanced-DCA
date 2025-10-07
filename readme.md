@@ -1,6 +1,6 @@
 # Enhanced DCA vs. Traditional DCA Strategy Comparison
 
-This project implements and compares two **Dollar-Cost Averaging (DCA)** investment strategies using [Backtrader](https://www.backtrader.com/), a Python framework for backtesting trading algorithms.
+This project implements and compares three **Dollar-Cost Averaging (DCA)** investment strategies using [Backtrader](https://www.backtrader.com/), a Python framework for backtesting trading algorithms.
 
 The goal is to evaluate whether an **adaptive, market-aware Enhanced DCA (EDCA)** strategy outperforms a **fixed-interval DCA** approach over time in terms of return, risk, and efficiency.
 
@@ -24,6 +24,9 @@ The goal is to evaluate whether an **adaptive, market-aware Enhanced DCA (EDCA)*
     - **–% gain** (e.g., 3% gain → –3% investment) 
 - The implementation idea is based on the paper [here](https://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1025&context=financefacpub) with modification
 - All the investment parameter are configurable
+
+### 3. **Weighted DCA (EDCA)**
+- Similar to **EDCA**, but this strategy will be more aggressively buying into the market when the price drop 
 
 > This creates a **mean-reverting bias**, buying more when assets are cheaper.
 

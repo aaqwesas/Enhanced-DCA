@@ -2,17 +2,18 @@ import backtrader as bt
 
 class EnhancedDCA(bt.Strategy):
     params = (
-        ('period', 3),
-        ('invest_amount', 1000),
-        ('max_increase', 1),
-        ('max_decrease', 0.50),
+        ('period', 3),               
+        ('invest_amount', 100),      
+        ('adjustment', 10),          
+        ('max_investment', 150),     
+        ('min_investment', 50),      
     )
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.order = None
         self.last_buy_date = None
         self.last_buy_price = None
-        self.current_investment = float(self.params.invest_amount)
+        self.current_investment = float(self.p.invest_amount)
 
     def log(self, txt, dt=None):
         dt = dt or self.data.datetime.date(0)
@@ -23,44 +24,34 @@ class EnhancedDCA(bt.Strategy):
             return
 
         if order.status == order.Completed:
-            order_type = "BUY" if order.isbuy() else "SELL"
-            self.log(f"Executed {order_type}: Price={order.executed.price:.2f}, Size={order.executed.size:.2f}, Cost={order.executed.value:.2f}")
+            self.log(f"Executed BUY: Price={order.executed.price:.2f}, "
+                     f"Size={order.executed.size:.2f}, Cost={order.executed.value:.2f}")
 
-            if order.isbuy():
-                self.last_buy_date = self.data.datetime.date(0)
-                self.last_buy_price = order.executed.price
-
-        elif order.status in [order.Canceled, order.Margin, order.Rejected]:
-            self.log(f"Order failed: {order.getstatusname()}")
-
+            self.last_buy_date = self.data.datetime.date(0)
+            self.last_buy_price = order.executed.price
         self.order = None
+
+    def _update_next_investment(self, current_buy_price):
+        if self.last_buy_price is None:
+            self.current_investment = self.p.invest_amount
+            return
+
+        price_change = current_buy_price - self.last_buy_price
+        if price_change < 0:
+            self.current_investment += self.p.adjustment
+        elif price_change > 0:
+            self.current_investment -= self.p.adjustment
+
+        self.current_investment = max(self.p.min_investment, 
+                                    min(self.p.max_investment, self.current_investment))
+
 
     def should_buy_today(self):
         current_date = self.data.datetime.date(0)
         if self.last_buy_date is None:
             return True
         days_since_last = (current_date - self.last_buy_date).days
-        return days_since_last >= self.params.period
-
-    def adjust_investment_size(self):
-        if self.last_buy_price is None:
-            return
-
-        current_price = self.data.close[0]
-        price_change_pct = (current_price - self.last_buy_price) / self.last_buy_price
-
-        adjustment_factor = 0.0
-
-        if price_change_pct < 0:
-            adjustment_factor = -2.0 * price_change_pct
-        else:
-            adjustment_factor = -price_change_pct
-
-        max_up = self.params.max_increase
-        max_down = -self.params.max_decrease
-        adjustment_factor = max(max_down, min(adjustment_factor, max_up))
-
-        self.current_investment = self.params.invest_amount * (1 + adjustment_factor)
+        return days_since_last >= self.p.period
 
     def next(self):
         if self.order:
@@ -69,14 +60,11 @@ class EnhancedDCA(bt.Strategy):
         if not self.should_buy_today():
             return
 
-        self.adjust_investment_size()
-
         cash = self.broker.getcash()
         current_price = self.data.close[0]
+        self._update_next_investment(current_price)
         stake = self.current_investment / current_price
-
-        if stake > 0 and cash >= self.current_investment * 1.01:
-            self.log(f"Buying ${self.current_investment:.2f} at {current_price:.2f}")
-            self.order = self.buy(size=stake)
+        if cash > self.current_investment and  stake > 0:
+            self.order = self.buy(size=stake, exectype=bt.Order.Market)
         else:
             self.log("Insufficient cash")

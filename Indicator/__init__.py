@@ -1,6 +1,6 @@
 from .asi import AccumulativeSwingIndex
 
 
-__all__ = [
+__all__ = (
     "AccumulativeSwingIndex",
-]
+)

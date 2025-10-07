@@ -145,8 +145,3 @@ class WeightedDCA(bt.Strategy):
             size = self.calculate_entry_size()
             self.log(f"BUY CREATE, Price: {current_price:.2f}, Size: {size}, Signal: {self.calculate_signal_strength():.2f}")
             self.order = self.buy(size=size)
-
-        # # ——— Exit Logic ———
-        # elif self.lowest_entry and current_price >= self.lowest_entry * 0.05:
-        #     self.log(f"SELL (TAKE PROFIT), Price: {current_price:.2f}, Lowest Entry: {self.lowest_entry:.2f}")
-        #     self.order = self.sell(size=self.position.size)

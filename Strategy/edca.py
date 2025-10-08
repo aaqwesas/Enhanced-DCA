@@ -2,11 +2,11 @@ import backtrader as bt
 
 class EnhancedDCA(bt.Strategy):
     params = (
-        ('period', 3),               
-        ('invest_amount', 15),      
-        ('adjustment', 5),          
-        ('max_investment', 30),     
-        ('min_investment', 10),      
+        ('period', 3),
+        ('invest_amount', 100),
+        ('adjustment', 5),
+        ('max_investment', 200),
+        ('min_investment', 50),
     )
 
     def __init__(self) -> None:
@@ -60,6 +60,6 @@ class EnhancedDCA(bt.Strategy):
         cash = self.broker.getcash()
         current_price = self.data.close[0]
         self._update_next_investment(current_price)
-        stake = self.current_investment / current_price
-        if cash > self.current_investment and  stake > 0:
+        stake = min(self.current_investment / current_price, cash / self.current_investment)
+        if stake > 0:
             self.order = self.buy(size=stake, exectype=bt.Order.Market)

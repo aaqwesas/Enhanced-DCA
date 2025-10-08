@@ -26,7 +26,7 @@ The goal is to evaluate whether an **adaptive, market-aware Enhanced DCA (EDCA)*
 - All the investment parameter are configurable
 
 ### 3. **Weighted DCA (EDCA)**
-- Similar to **EDCA**, but this strategy will be more aggressively buying into the market when the price drop 
+- Similar to **EDCA**, but this strategy will be more aggressively buying into the market when the price drop more (buying approach is based on the percentage)
 
 > This creates a **mean-reverting bias**, buying more when assets are cheaper.
 

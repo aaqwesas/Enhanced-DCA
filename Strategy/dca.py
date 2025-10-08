@@ -3,7 +3,7 @@ import backtrader as bt
 
 class DollarCostAveraging(bt.Strategy):
     params = (
-        ("invest_amount", 15),
+        ("invest_amount", 100),
         ("period", 3),
     )
 

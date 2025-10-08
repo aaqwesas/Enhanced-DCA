@@ -206,6 +206,9 @@ def main(tickers_file: Path, output_path: Path):
 
     generate_summary(output_dir=output_path, all_results=all_results)
 
+
+
+
 if __name__ == "__main__":
     tickers = Path("company_tickers.jsonl")
     output_path = Path("backtest")

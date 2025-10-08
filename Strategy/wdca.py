@@ -2,10 +2,10 @@ import backtrader as bt
 
 class WeightedDCA(bt.Strategy):
     params = (
-        ('invest_amount', 150),      
-        ('period', 1),               
-        ('max_investment', 45),     
-        ('min_investment', 7.5),      
+        ('invest_amount', 100),
+        ('max_investment', 200),
+        ('min_investment', 50),
+        ('period', 1),
     )
 
     def __init__(self):
@@ -55,7 +55,7 @@ class WeightedDCA(bt.Strategy):
 
         signal_strength = (1 - price_change_pct) * 2
         
-        signal_strength = max(0.5, min(3.0, signal_strength))
+        signal_strength = max(0.5, min(2.0, signal_strength))
         
         return signal_strength
 
@@ -63,7 +63,7 @@ class WeightedDCA(bt.Strategy):
         current_price = self.data.close[0]
         
         if current_price == 0:
-            # self.log("Warning: Current price is zero, skipping buy")
+            # self.log("Warning: Current price is zero")
             return 0.0
         
         base_dollars = self.p.invest_amount
@@ -92,8 +92,7 @@ class WeightedDCA(bt.Strategy):
         cash = self.broker.getcash()
         
         size = self.calculate_entry_size()
-        required_cash = size * current_price * 1.01 if current_price > 0 else 0
+        stake = min(cash / current_price, size)
         
-        if size > 0 and cash >= required_cash:
-            # self.log(f"BUY CREATE, Price: {current_price:.2f}, Size: {size:.2f}, Signal: {self.calculate_signal_strength():.2f}")
-            self.order = self.buy(size=size, exectype=bt.Order.Market)
+        if stake > 0:
+            self.order = self.buy(size=stake, exectype=bt.Order.Market)

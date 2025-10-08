@@ -1,0 +1,4 @@
+Strategy,Wins,Total Comparisons,Win Rate (%)
+Enhanced DCA,2984,9179,32.51
+DCA,1590,9179,17.32
+Weighted DCA,4605,9179,50.17

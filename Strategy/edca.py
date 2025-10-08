@@ -3,10 +3,10 @@ import backtrader as bt
 class EnhancedDCA(bt.Strategy):
     params = (
         ('period', 3),               
-        ('invest_amount', 100),      
-        ('adjustment', 10),          
-        ('max_investment', 150),     
-        ('min_investment', 50),      
+        ('invest_amount', 15),      
+        ('adjustment', 5),          
+        ('max_investment', 30),     
+        ('min_investment', 10),      
     )
 
     def __init__(self) -> None:
@@ -20,12 +20,9 @@ class EnhancedDCA(bt.Strategy):
         print(f'{dt.isoformat()} {txt}')
 
     def notify_order(self, order):
-        if order.status in [order.Submitted, order.Accepted]:
-            return
-
         if order.status == order.Completed:
-            self.log(f"Executed BUY: Price={order.executed.price:.2f}, "
-                     f"Size={order.executed.size:.2f}, Cost={order.executed.value:.2f}")
+            # self.log(f"Executed BUY: Price={order.executed.price:.2f}, "
+            #          f"Size={order.executed.size:.2f}, Cost={order.executed.value:.2f}")
 
             self.last_buy_date = self.data.datetime.date(0)
             self.last_buy_price = order.executed.price
@@ -66,5 +63,3 @@ class EnhancedDCA(bt.Strategy):
         stake = self.current_investment / current_price
         if cash > self.current_investment and  stake > 0:
             self.order = self.buy(size=stake, exectype=bt.Order.Market)
-        else:
-            self.log("Insufficient cash")

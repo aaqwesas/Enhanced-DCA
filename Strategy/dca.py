@@ -3,7 +3,7 @@ import backtrader as bt
 
 class DollarCostAveraging(bt.Strategy):
     params = (
-        ("invest_amount", 100),
+        ("invest_amount", 15),
         ("period", 3),
     )
 
@@ -16,15 +16,9 @@ class DollarCostAveraging(bt.Strategy):
         print(f'{dt.isoformat()} {txt}')
 
     def notify_order(self, order):
-        if order.status in [order.Submitted, order.Accepted]:
-            return
-
-        if order.status == order.Completed:
-            self.log(f"Executed: Price={order.executed.price:.2f}, "
-                     f"Size={order.executed.size:.2f}, Cost={order.executed.value:.2f}")
-
-        elif order.status in [order.Canceled, order.Margin, order.Rejected]:
-            self.log(f"Order failed: {order.getordername()}")
+        # if order.status == order.Completed:
+        #     self.log(f"Executed: Price={order.executed.price:.2f}, "
+        #              f"Size={order.executed.size:.2f}, Cost={order.executed.value:.2f}")
 
         self.order = None
 
@@ -46,7 +40,7 @@ class DollarCostAveraging(bt.Strategy):
         invest_amount = min(self.params.invest_amount, cash)
 
         if invest_amount <= 0:
-            self.log("No cash to invest")
+            # self.log("No cash to invest")
             return
 
         price = self.datas[0].close[0]
@@ -58,4 +52,4 @@ class DollarCostAveraging(bt.Strategy):
                 exectype=bt.Order.Market,
             )
             self.last_date = current_date
-            self.log(f"Buy: {size:.4f} shares at ${price:.2f} | Invested: ${invest_amount:.2f}")
+            # self.log(f"Buy: {size:.4f} shares at ${price:.2f} | Invested: ${invest_amount:.2f}")

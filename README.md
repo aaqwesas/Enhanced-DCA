@@ -60,7 +60,7 @@ signal_strength = max(0.5, min(2.0, signal_strength))
 the reason for mutliply signal strength by 2 is to just make the strategy more aggressive. Modify if needed
 
 the mathematical formulation:
-$$r_t = \frac{p_t - p_{t-1}}{p_{t-1}}, \quad$$
+$$r_t = \frac{p_t - p_{t-1}}{p_{t-1}},$$
 
 $$s_t = \max\left(0.5, \min\left(2.0, 2(1 - r_t)\right)\right)$$
 

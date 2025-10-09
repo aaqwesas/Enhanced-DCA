@@ -61,7 +61,8 @@ the reason for mutliply signal strength by 2 is to just make the strategy more a
 
 the mathematical formulation:
 $$r_t = \frac{p_t - p_{t-1}}{p_{t-1}}, \quad$$
-$$s_t = \max\left(0.5,\; \min\left(2.0,\; 2(1 - r_t)\right)\right)$$
+
+$$s_t = \max\left(0.5, \min\left(2.0, 2(1 - r_t)\right)\right)$$
 
 Then:
 $$H_t = 

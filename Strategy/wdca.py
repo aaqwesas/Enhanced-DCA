@@ -4,7 +4,7 @@ class WeightedDCA(bt.Strategy):
     params = (
         ('invest_amount', 100),
         ('max_investment', 200),
-        ('min_investment', 50),
+        ("min_investment", 50),
         ('period', 1),
     )
 
@@ -60,16 +60,14 @@ class WeightedDCA(bt.Strategy):
 
     def calculate_entry_size(self) -> float:
         current_price = self.data.close[0]
-        
+        cash = self.broker.getcash()
         if current_price == 0:
             # self.log("Warning: Current price is zero")
             return 0.0
         
-        base_dollars = self.p.invest_amount
         signal_strength = self.calculate_signal_strength()
-        adjusted_dollars = base_dollars * signal_strength
-        adjusted_dollars = max(self.p.min_investment, min(self.p.max_investment, adjusted_dollars))
-        size = adjusted_dollars / current_price
+        adjusted_dollars =  max(self.p.min_investment,min(self.p.max_investment, self.p.invest_amount * signal_strength))
+        size = min(adjusted_dollars / current_price, cash / current_price)
         
         return max(0.0, size)
 
@@ -87,11 +85,6 @@ class WeightedDCA(bt.Strategy):
         if not self.should_buy_today():
             return
             
-        current_price = self.data.close[0]
-        cash = self.broker.getcash()
-        
         size = self.calculate_entry_size()
-        stake = min(cash / current_price, size)
-        
-        if stake > 0:
-            self.order = self.buy(size=stake, exectype=bt.Order.Market)
+        if size > 0:
+            self.order = self.buy(size=size, exectype=bt.Order.Market)

@@ -39,8 +39,7 @@ class EnhancedDCA(bt.Strategy):
         elif price_change > 0:
             self.current_investment -= self.p.adjustment
 
-        self.current_investment = max(self.p.min_investment, 
-                                    min(self.p.max_investment, self.current_investment))
+        self.current_investment = max(self.p.min_investment, min(self.p.max_investment, self.current_investment))
 
 
     def should_buy_today(self):
@@ -60,6 +59,9 @@ class EnhancedDCA(bt.Strategy):
         cash = self.broker.getcash()
         current_price = self.data.close[0]
         self._update_next_investment(current_price)
-        stake = min(self.current_investment / current_price, cash / self.current_investment)
+        invest_amount = min(self.current_investment, cash)
+        
+        stake = invest_amount / current_price
+        
         if stake > 0:
             self.order = self.buy(size=stake, exectype=bt.Order.Market)

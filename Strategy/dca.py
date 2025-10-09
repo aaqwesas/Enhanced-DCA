@@ -16,10 +16,6 @@ class DollarCostAveraging(bt.Strategy):
         print(f'{dt.isoformat()} {txt}')
 
     def notify_order(self, order):
-        # if order.status == order.Completed:
-        #     self.log(f"Executed: Price={order.executed.price:.2f}, "
-        #              f"Size={order.executed.size:.2f}, Cost={order.executed.value:.2f}")
-
         self.order = None
 
     def next(self):

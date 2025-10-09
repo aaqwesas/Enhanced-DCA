@@ -30,8 +30,7 @@ where:
   - If price has **dropped**, increase investment by a fixed amount (buy more on dips).
   - If price has **risen**, reduce investment by a fixed amount (avoid overbuying at highs).
 - Formula:  
-$$
-H_t = 
+$$H_t = 
 \begin{cases}
 I & \text{if } t = 0 \\
 H_{t-1} + f & \text{if } t > 0 \text{ and } p_t < p_{t-1} \\
@@ -61,14 +60,11 @@ signal_strength = max(0.5, min(2.0, signal_strength))
 the reason for mutliply signal strength by 2 is to just make the strategy more aggressive. Modify if needed
 
 the mathematical formulation:
-$$
-r_t = \frac{p_t - p_{t-1}}{p_{t-1}}, \quad
-s_t = \max\left(0.5,\; \min\left(2.0,\; 2(1 - r_t)\right)\right)
-$$
+$$r_t = \frac{p_t - p_{t-1}}{p_{t-1}}, \quad$$
+$$s_t = \max\left(0.5,\; \min\left(2.0,\; 2(1 - r_t)\right)\right)$$
 
 Then:
-$$
-H_t = 
+$$H_t = 
 \begin{cases}
 I & \text{if } t = 0 \\
 s_t \cdot H_{t-1} & \text{if } t > 0

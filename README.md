@@ -18,8 +18,8 @@ H_t = I \quad \text{for all } t = 0, 1, 2, \dots
 $$
 
 where:  
-- $ H_t $: investment amount at time $ t $,  
-- $ I $: constant (base) investment amount (e.g., \$100 per interval).
+- $H_t$: investment amount at time $t$,  
+- $I$: constant (base) investment amount (e.g., \$100 per interval).
 
 
 ---

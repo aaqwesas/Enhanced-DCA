@@ -37,8 +37,7 @@ I & \text{if } t = 0 \\
 H_{t-1} + f & \text{if } t > 0 \text{ and } p_t < p_{t-1} \\
 H_{t-1} - f & \text{if } t > 0 \text{ and } p_t > p_{t-1} \\
 H_{t-1} & \text{if } t > 0 \text{ and } p_t = p_{t-1}
-\end{cases}
-$$
+\end{cases}$$
 
 where:
 - $H_t$: investment amount at time $t$,

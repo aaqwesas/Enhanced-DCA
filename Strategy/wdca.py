@@ -52,7 +52,6 @@ class WeightedDCA(bt.Strategy):
         
         price_change_pct = (current_price - self.last_buy_price) / self.last_buy_price
         
-
         signal_strength = (1 - price_change_pct) * 2
         
         signal_strength = max(0.5, min(2.0, signal_strength))

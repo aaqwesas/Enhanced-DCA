@@ -210,6 +210,10 @@ def main(tickers_file: Path, output_path: Path):
 
 
 if __name__ == "__main__":
-    tickers = Path("company_tickers.jsonl")
-    output_path = Path("backtest")
-    main(tickers_file=tickers, output_path=output_path)
+    # tickers = Path("company_tickers.jsonl")
+    # output_path = Path("backtest")
+    # main(tickers_file=tickers, output_path=output_path)
+    df = yf.download(tickers="MNBEF", interval="1d", period="max", auto_adjust=True, multi_level_index=False)
+    path = Path("data/MNBEF.csv")
+    df.to_csv(path,index=False)
+    

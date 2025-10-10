@@ -102,18 +102,55 @@ Each strategy is evaluated using the following metrics:
 - **Total Return (%)**
 - **Sharpe Ratio** (risk-adjusted return)
 - **Max Drawdown (%)**
-- **Cumulative Return vs Buy & Hold**
+<!-- - **Cumulative Return vs Buy & Hold** -->
 
 These are computed using Backtrader’s built-in analyzers.
 
 ---
 
-## Results
+## Analysis Results
 
-working on it
+### Sharpe Ratio:
+The Sharpe ratio shows a roughly normal distribution but with very high kurtosis. This means that while most DCA strategies perform within normal ranges, there are more extreme outcomes than expected. Some strategies perform exceptionally well, while others perform very poorly. This makes sense because none of the strategies use take-profit or stop-loss rules, so there's no limit on how high or low returns can go. The high kurtosis tells us that "black swan" events (extreme results) happen more often than normal statistics would predict.
 
----
+### Total Return:
+The total return distribution is positively skewed, meaning most values are on the lower side with some very high returns pulling up the average. The mode (most common value) is around 0%, showing that many investments break even or have small returns. However, the mean return is 109.17%, which is much higher than the mode. This difference happens because a few investments with very high returns significantly boost the average.
+
+### Maximum Drawdown:
+The average maximum drawdown is 57.53%, which seems quite high. This means that on average, investments lose more than half their value at some point before the end of the investment period. This high drawdown suggests that DCA strategies can be quite risky in terms of temporary losses, even if they end up profitable.
+
+### CAGR (Compound Annual Growth Rate):
+The average CAGR is 7.27%, which is lower than the typical market return of around 10% annually. This happens because many of the investments in the dataset include penny stocks or poor-performing companies that drag down the overall average. If you only invested in well-performing stocks using fundamental analysis, the CAGR would likely be much higher. The current average reflects the reality of investing in a mix of good and bad companies.
+
+### Win Rate by Strategy:
+- Weighted DCA: 50.2% win rate
+- Enhanced DCA: 32.5% win rate  
+- DCA: 17.3% win rate
+
+The win rate shows that Weighted DCA wins most often, followed by Enhanced DCA, with regular DCA winning least often. This suggests that the weighted approach (buying more when prices are lower) is more effective than the other strategies.
+
+### Maximum Drawdown by Strategy:
+- Weighted DCA has the highest maximum drawdown on average
+- Enhanced DCA has the lowest maximum drawdown on average
+
+This result is interesting because Weighted DCA, which buys more shares when prices drop, ends up with higher maximum drawdowns. This happens because when prices keep falling, the strategy keeps buying more, which increases the total loss. On the other hand, Enhanced DCA has the lowest drawdown, suggesting it's the most protective against large losses, even though it doesn't win as often.
+
+### Strategy Performance Summary:
+The results show that different strategies have different strengths:
+- Weighted DCA wins most often but takes the most risk (highest drawdown)
+- Enhanced DCA takes the least risk but wins less often
+- Regular DCA performs the worst in both win rate and risk management
+
+This suggests that the Enhanced DCA approach might need adjustment, as it doesn't perform as well as expected despite having lower risk.
 
 ## Key Insights
 
----
+1. **Risk vs Reward**: There's a clear trade-off between winning frequency and risk. Strategies that win more often tend to have higher maximum losses.
+
+2. **Market Reality**: The average returns are lower than market benchmarks because the dataset includes many poor-performing stocks. Real-world investing would likely show better results with careful stock selection.
+
+3. **Strategy Choice**: The choice of DCA strategy depends on your risk tolerance. If you want to win more often, Weighted DCA is best, but you'll face higher temporary losses. If you want to minimize losses, Enhanced DCA is better, but you'll win less often.
+
+4. **Extreme Events**: The high kurtosis in Sharpe ratios means you should expect more extreme outcomes than normal statistics suggest. This is important for managing expectations and risk.
+
+5. **Parameter Optimization**: The Enhanced DCA strategy may need parameter adjustments, as its performance doesn't match expectations given its lower risk profile.
